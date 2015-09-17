@@ -15,6 +15,9 @@
 	<a href="bean">Click for bean</a>
 	<p>
 
-		<a href="bean">Click for bean</a>
+		<a href="thyme">Click for thyme</a>
+		<p>
+		<a href="greeting">Click for greeting</a>
+
 </body>
 </html>

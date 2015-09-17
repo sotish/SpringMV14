@@ -1,21 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-    <!--  base-package here: -->
-         <context:component-scan   base-package="com.sat.controllers"/>
+	<!-- base-package here: -->
 
+	<context:component-scan base-package="com.sat.controllers" />
 
-    <mvc:annotation-driven />
+	<!-- for Annotation -->
 
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<mvc:annotation-driven />
 
-	        <property name="prefix" value="/WEB-INF/view/"/>
-	        <property name="suffix" value=".jsp"/>
+	<!-- View resolver for jsp -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- THYMELEAF: Template Resolver for webapp pages -->
+
+	<bean id="webTemplateResolver"
+		class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+		<property name="prefix" value="/WEB-INF/templates/" />
+		<property name="suffix" value="*.html5,*.htm,*.html" />
+		<property name="templateMode" value="HTML5" />
+		<property name="characterEncoding" value="UTF-8" />
+		<property name="order" value="2" />
+
+		<!-- Template cache is true by default if set to false it'll be automatically
+			updated when modified. -->
+
+		<property name="cacheable" value="true" />
+	</bean>
+
+	<!-- Template engine for Thymelef -->
+
+	<bean id="webTemplateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+		<property name="templateResolver" ref="webTemplateResolver" />
+	</bean>
+
+	<!-- View Resolver for Thymeleaf -->
+
+	<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+		<property name="templateEngine" ref="webTemplateEngine" />
+		<property name="order" value="1" />
 	</bean>
 
 </beans>
